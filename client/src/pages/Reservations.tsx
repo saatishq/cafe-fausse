@@ -235,22 +235,31 @@ export default function Reservations() {
                         const slotData = availabilityData?.find((s) => s.timeSlot === slot);
                         const isAvailable = slotData?.available ?? true;
                         const isSelected = selectedTime === slot;
-
+                        const availableCount = slotData?.availableCount ?? 30;
                         return (
                           <button
                             key={slot}
                             type="button"
                             disabled={!isAvailable}
                             onClick={() => setSelectedTime(slot)}
-                            className={`py-3 px-2 text-sm font-sans rounded-md border transition-all ${
+                            className={`py-3 px-2 text-sm font-sans rounded-md border transition-all flex flex-col items-center gap-1 ${
                               isSelected
                                 ? "bg-primary text-primary-foreground border-primary"
                                 : isAvailable
                                 ? "bg-background hover:border-primary hover:text-primary"
                                 : "bg-muted text-muted-foreground cursor-not-allowed opacity-50"
                             }`}
-                          >
-                            {slot}
+                            >
+                            <span>{slot}</span>
+                            <span className={`text-[10px] ${
+                              isSelected
+                                ? "text-primary-foreground/80"
+                                : isAvailable
+                                ? "text-muted-foreground"
+                                : "text-muted-foreground/50"
+                            }`}>
+                              {availableCount}/{30} open
+                            </span>
                           </button>
                         );
                       })}
